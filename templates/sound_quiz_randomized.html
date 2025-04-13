@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sound-It-Out Quiz</title>
+  <script src="{{ url_for('static', filename='js/progress.js') }}"></script>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #FFF4C1;
+      text-align: center;
+      padding: 40px;
+      color: #7A3700;
+    }
+    h1 { font-size: 32px; margin-bottom: 10px; }
+    #score-display { font-size: 18px; margin-bottom: 20px; }
+    #quiz-box {
+      background: #FFF085; border: 4px solid #FCB454; padding: 30px;
+      border-radius: 20px; display: inline-block; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.5s ease-in; max-width: 400px;
+    }
+    .option {
+      display: block; margin: 15px auto; padding: 12px 30px; background: #F16767;
+      color: white; font-size: 18px; border: none; border-radius: 12px; cursor: pointer;
+      width: 250px; transition: 0.3s;
+    }
+    .option:hover { background: #d94f4f; }
+    #feedback { font-size: 20px; margin-top: 20px; font-weight: bold; }
+    #next-btn {
+      display: none; margin-top: 25px; padding: 10px 25px; background: #7A3700;
+      color: white; font-size: 16px; border: none; border-radius: 10px; cursor: pointer;
+    }
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+  </style>
+</head>
+<body>
+
+<h1>🔊 Sound-It-Out Quiz</h1>
+<div id="score-display">Score: <span id="score">0</span> / <span id="total"></span></div>
+
+<div id="quiz-box">
+  <p id="word-instruction">Listen to the word and choose the correct spelling:</p>
+  <button onclick="playWord()" style="background:#FCB454; padding:10px 20px; font-size:18px; border:none; border-radius:10px; cursor:pointer;">🔊 Play Word</button>
+  <div id="options"></div>
+  <div id="feedback"></div>
+  <button id="next-btn" onclick="nextQuestion()">Next</button>
+</div>
+
+<script>
+  const quizData = [
+    { word: "cat", correct: "cat", options: ["kat", "cat", "cet"] },
+    { word: "dog", correct: "dog", options: ["dug", "dog", "dag"] },
+    { word: "fish", correct: "fish", options: ["fesh", "fash", "fish"] },
+    { word: "book", correct: "book", options: ["buk", "book", "booc"] },
+    { word: "sun", correct: "sun", options: ["son", "san", "sun"] },
+    { word: "hat", correct: "hat", options: ["hot", "hat", "het"] },
+    { word: "pen", correct: "pen", options: ["pan", "pen", "pin"] },
+    { word: "car", correct: "car", options: ["cor", "car", "cur"] },
+    { word: "map", correct: "map", options: ["mep", "map", "mop"] },
+    { word: "red", correct: "red", options: ["rad", "rid", "red"] }
+  ];
+
+  const shuffledQuestions = quizData.sort(() => 0.5 - Math.random()).slice(0, 7);
+  let current = 0, score = 0, hasAnswered = false, startTime = Date.now();
+
+  document.getElementById("total").innerText = shuffledQuestions.length;
+
+  function playWord() {
+    const msg = new SpeechSynthesisUtterance(shuffledQuestions[current].word);
+    msg.lang = "en-US";
+    window.speechSynthesis.speak(msg);
+  }
+
+  function loadQuestion() {
+    hasAnswered = false;
+    document.getElementById("feedback").innerText = "";
+    document.getElementById("next-btn").style.display = "none";
+    const optsDiv = document.getElementById("options");
+    optsDiv.innerHTML = "";
+    shuffledQuestions[current].options.forEach(option => {
+      const btn = document.createElement("button");
+      btn.className = "option";
+      btn.innerText = option;
+      btn.onclick = () => checkAnswer(option);
+      optsDiv.appendChild(btn);
+    });
+  }
+
+  function checkAnswer(selected) {
+  const feedback = document.getElementById("feedback");
+
+  if (selected === shuffledQuestions[current].correct) {
+    if (!hasAnswered) {
+      score++;
+      document.getElementById("score").innerText = score;
+    }
+    feedback.innerText = "✅ Correct!";
+    feedback.style.color = "#2E8B57";
+    hasAnswered = true;
+    document.getElementById("next-btn").style.display = "inline-block";
+  } else {
+    feedback.innerText = "❌ Try again!";
+    feedback.style.color = "#B22222";
+    // hasAnswered is NOT set to true here → allows retry
+  }
+}
+
+  function nextQuestion() {
+  current++;
+  if (current < shuffledQuestions.length) {
+    loadQuestion();
+  } else {
+    const duration = Math.floor((Date.now() - startTime) / 60000); // minutes
+    document.getElementById("quiz-box").innerHTML = `
+      <h2>🎉 Great Job!</h2>
+      <p>Your final score: ${score} / ${shuffledQuestions.length}</p>
+    `;
+    document.getElementById("score-display").style.display = "none";
+
+    // ✅ Firestore save
+    fetch('/log_result', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        activity: 'sound_quiz',
+        score: score,
+        duration: duration
+      })
+    })
+    .then(() => window.location.href = '/gamified');
+  }
+}
+
+  loadQuestion();
+</script>
+
+</body>
+</html>

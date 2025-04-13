@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Talk Trace - Dyslexia/ADHD Predictor</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #FFF4C1;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #7A3700;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 90%;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #FCB454;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    input[type='number'] {
+      width: 80px;
+      padding: 6px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 2px solid #FCB454;
+      margin: 5px;
+    }
+
+    button {
+      padding: 10px 25px;
+      background: #F16767;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    button:hover {
+      background-color: #d94f4f;
+    }
+
+    .result {
+      background-color: #FFF085;
+      border: 4px solid #FCB454;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      text-align: left;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .neutral { color: #7A3700; font-weight: bold; }
+    .highlight { color: #D32F2F; font-weight: bold; }
+    .good { color: #2E7D32; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 Talk Trace - Smart Dyslexia/ADHD Prediction</h1>
+
+  <div>
+    <textarea id="transcript" rows="4" placeholder="🎤 Speak or paste your sentence..."></textarea><br>
+    <button onclick="startRecording()">🎙 Start Mic</button><br>
+
+    <label>Letter Reversals:</label>
+    <input type="number" id="reversals" min="0" value="0">
+    <label>Pauses:</label>
+    <input type="number" id="pauses" min="0" value="0">
+    <label>Focus Shifts:</label>
+    <input type="number" id="shifts" min="0" value="0"><br>
+
+    <button onclick="predict()">🔍 Predict</button>
+  </div>
+
+  <div class="result" id="result" style="display:none;">
+    <p><strong>Prediction:</strong> <span id="prediction" class="neutral"></span></p>
+    <p><strong>Confidence:</strong> <span id="confidence" class="good"></span>%</p>
+    <p><strong>Readability:</strong> <span id="readability" class="neutral"></span></p>
+    <p><strong>Grammar Errors:</strong> <span id="grammar" class="highlight"></span></p>
+    <p><strong>Repetitions:</strong> <span id="repetitions" class="highlight"></span></p>
+    <p><strong>Filler Words:</strong> <span id="filler" class="highlight"></span></p>
+    <p><strong>Pronouns (I/You/They):</strong>
+      <span id="pronouns" class="neutral"></span></p>
+  </div>
+
+  <script>
+    let pauses = 0;
+    let focusShifts = 0;
+    let lastTime = null;
+
+    window.addEventListener('blur', () => { focusShifts++; });
+
+    function startRecording() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return alert("Speech recognition not supported.");
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = true;
+
+      lastTime = Date.now();
+      pauses = 0;
+
+      recognition.onresult = function(event) {
+        const now = Date.now();
+        if (lastTime && now - lastTime > 700) pauses++;
+        lastTime = now;
+
+        const transcript = Array.from(event.results)
+          .map(result => result[0].transcript)
+          .join("");
+        document.getElementById("transcript").value = transcript;
+      };
+
+      recognition.onend = () => {
+        document.getElementById("pauses").value = pauses;
+        document.getElementById("shifts").value = focusShifts;
+      };
+
+      recognition.onerror = function(event) {
+        alert("Mic Error: " + event.error);
+      };
+
+      recognition.start();
+    }
+
+    function predict() {
+      const transcript = document.getElementById("transcript").value;
+      const reversals = parseInt(document.getElementById("reversals").value);
+      const pauses = parseInt(document.getElementById("pauses").value);
+      const shifts = parseInt(document.getElementById("shifts").value);
+
+      fetch('/talktrace_predict', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          transcript: transcript,
+          reversals: reversals,
+          pauses: pauses,
+          shifts: shifts
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("result").style.display = "block";
+        document.getElementById("prediction").innerText = data.prediction;
+        document.getElementById("confidence").innerText = data.confidence;
+        document.getElementById("readability").innerText = data.features.readability_score;
+        document.getElementById("grammar").innerText = data.features.grammar_errors;
+        document.getElementById("repetitions").innerText = data.features.repetitions;
+        document.getElementById("filler").innerText = data.features.filler_words;
+        document.getElementById("pronouns").innerText =
+          data.features.pronoun_I + " / " +
+          data.features.pronoun_you + " / " +
+          data.features.pronoun_they;
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NeuroNudge VR Word Builder</title>
+  <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; font-family: 'Baloo 2', cursive; }
+    a-scene { font-family: 'Baloo 2', cursive; }
+    #finish-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #F16767;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 12px;
+      font-family: 'Comic Sans MS', cursive;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 9999;
+    }
+    #finish-btn:hover { background-color: #d94f4f; }
+  </style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; color: #4DB6AC; z-index: 10;">Loading...</div>
+
+<a-scene background="color: #ffffff" cursor="rayOrigin: mouse" raycaster="objects: .interactive">
+  <a-sky color="#E1F5FE"></a-sky>
+  <a-plane rotation="-90 0 0" width="30" height="30" color="#FFF8E1"></a-plane>
+
+  <!-- Score, Timer, Instructions -->
+  <a-text id="progressText" value="Progress: 1/10" position="0 2.9 -6" align="center" color="#6A1B9A" width="6"></a-text>
+  <a-text id="scoreText" value="⭐ Score: 0" position="-4 3.2 -6" align="left" color="#FF8F00" width="4"></a-text>
+  <a-text id="timerText" value="⏱️ Time: 30s" position="4 3.2 -6" align="right" color="#D50000" width="4"></a-text>
+  <a-text value="🧠 Build the Word!" position="0 3.5 -6" align="center" color="#1A237E" width="8"></a-text>
+  <a-text id="levelText" value="Level 1" position="0 3.2 -6" align="center" color="#004D40" width="6"></a-text>
+
+  <!-- Word Feedback -->
+  <a-text id="shadowHint" value="" position="0 2.5 -6" align="center" color="#757575" opacity="0.3" width="6"></a-text>
+  <a-text id="selected" value="Selected: " position="0 2.1 -6" align="center" color="#1B5E20" width="6"></a-text>
+  <a-text id="success" value="🎉 Well Done!" visible="false" position="0 1.8 -6" align="center" color="#2E7D32" width="6"></a-text>
+
+  <!-- Letters Area -->
+  <a-entity id="letters" position="0 1.2 -6"></a-entity>
+
+  <!-- Control Buttons -->
+  <a-box id="resetBtn" position="-4 2.5 -6" width="1.2" height="0.5" depth="0.3" color="#FFCA28" class="interactive">
+    <a-text value="Reset" align="center" position="0 0 0.3" color="#000" width="2.5"></a-text>
+  </a-box>
+  <a-box id="nextBtn" position="4 2.5 -6" width="1.2" height="0.5" depth="0.3" color="#4DD0E1" class="interactive">
+    <a-text value="Skip" align="center" position="0 0 0.3" color="#000" width="2.5"></a-text>
+  </a-box>
+</a-scene>
+
+<!-- ✅ Finish Button -->
+<button onclick="markVRGameComplete()" id="finish-btn">✅ Finish</button>
+
+<script>
+  let levels = [[]], allWords = [];
+  let currentLevel = 0, index = 0, correctCount = 0, score = 0;
+  let timer, timeLeft = 30;
+  let selectedWord = "", gameOver = false;
+  let startTime = Date.now(); // ⏱
+
+  const levelText = document.querySelector('#levelText');
+  const shadowHint = document.querySelector('#shadowHint');
+  const selectedText = document.querySelector('#selected');
+  const successText = document.querySelector('#success');
+  let target;
+
+  fetch('https://api.datamuse.com/words?sp=????&max=100')
+    .then(res => res.json())
+    .then(data => {
+      allWords = data.map(w => w.word.toUpperCase())
+        .filter(w => w.length >= 3 && w.length <= 6 && /^[A-Z]+$/.test(w));
+      levels[0] = [...new Set(allWords)].slice(0, 10);
+      target = levels[currentLevel][index];
+      document.getElementById('loading').style.display = 'none';
+      updateScene();
+    });
+
+  function updateScene() {
+    document.querySelector('#progressText').setAttribute('value', `Progress: ${index + 1}/10`);
+    clearInterval(timer);
+    timeLeft = 30;
+    document.querySelector('#timerText').setAttribute('value', '⏱️ Time: 30s');
+    timer = setInterval(() => {
+      timeLeft--;
+      document.querySelector('#timerText').setAttribute('value', `⏱️ Time: ${timeLeft}s`);
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        speechSynthesis.speak(new SpeechSynthesisUtterance('Time up! Try next word.'));
+        loadNext(true);
+      }
+    }, 1000);
+
+    selectedWord = "";
+    gameOver = false;
+    shadowHint.setAttribute('value', target.split('').join(' '));
+    selectedText.setAttribute('value', 'Selected: ');
+    successText.setAttribute('visible', false);
+    const letterHolder = document.querySelector('#letters');
+    letterHolder.innerHTML = '';
+
+    const letters = Array.from(new Set(target.split('').concat(generateRandomLetters(6 - target.length)))).sort();
+    const spacing = 1.4;
+    const offset = -(letters.length - 1) * spacing / 2;
+
+    letters.forEach((char, i) => {
+      const box = document.createElement('a-box');
+      box.setAttribute('width', 0.8);
+      box.setAttribute('height', 0.8);
+      box.setAttribute('depth', 0.4);
+      box.setAttribute('color', getRandomColor());
+      box.setAttribute('class', 'interactive');
+      box.setAttribute('position', `${offset + i * spacing} 0 0`);
+      box.setAttribute('letter', char);
+
+      const text = document.createElement('a-text');
+      text.setAttribute('value', char);
+      text.setAttribute('align', 'center');
+      text.setAttribute('color', '#212121');
+      text.setAttribute('position', '0 0 0.3');
+      text.setAttribute('width', 3);
+      box.appendChild(text);
+
+      box.addEventListener('click', () => {
+        if (gameOver) return;
+        selectedWord += char;
+        selectedText.setAttribute('value', 'Selected: ' + selectedWord);
+        if (selectedWord === target) {
+          gameOver = true;
+          correctCount++;
+          score += 10;
+          successText.setAttribute('visible', true);
+          document.querySelector('#scoreText').setAttribute('value', '⭐ Score: ' + score);
+          speechSynthesis.speak(new SpeechSynthesisUtterance("Well done! You built the word " + target));
+          setTimeout(() => loadNext(false), 2000);
+        } else if (selectedWord.length >= target.length) {
+          speechSynthesis.speak(new SpeechSynthesisUtterance("Try again."));
+          selectedWord = "";
+          selectedText.setAttribute('value', 'Selected: ');
+        }
+      });
+
+      letterHolder.appendChild(box);
+    });
+  }
+
+  function loadNext(skip = false) {
+    if (!skip) correctCount++;
+    index++;
+    if (index >= levels[currentLevel].length) {
+      if (correctCount >= 10 && currentLevel < 3) {
+        currentLevel++;
+        levelText.setAttribute('value', 'Level ' + (currentLevel + 1));
+        levels[currentLevel] = allWords.slice(currentLevel * 10, currentLevel * 10 + 10);
+      }
+      index = 0;
+      correctCount = 0;
+      score = 0;
+      document.querySelector('#scoreText').setAttribute('value', '⭐ Score: 0');
+    }
+    target = levels[currentLevel][index];
+    updateScene();
+  }
+
+  function getRandomColor() {
+    const colors = ["#FFB74D", "#4DB6AC", "#9575CD", "#64B5F6", "#AED581", "#BA68C8"];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  function generateRandomLetters(count) {
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const randoms = [];
+    while (randoms.length < count) {
+      const l = alphabet[Math.floor(Math.random() * alphabet.length)];
+      if (!randoms.includes(l)) randoms.push(l);
+    }
+    return randoms;
+  }
+
+  document.querySelector('#resetBtn').addEventListener('click', updateScene);
+  document.querySelector('#nextBtn').addEventListener('click', () => loadNext(true));
+
+  // ✅ Finish and save to Firestore
+  function markVRGameComplete() {
+  const duration = Math.floor((Date.now() - startTime) / 60000);  // in minutes
+  fetch('/log_result', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      activity: 'vr_game',
+      score: score,        // existing variable
+      duration: duration
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === 'success') {
+      window.location.href = '/gamified';
+    } else {
+      alert("❌ Failed to save result.");
+    }
+  });
+}
+
+</script>
+
+</body>
+</html>

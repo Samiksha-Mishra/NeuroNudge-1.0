@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Expert Help</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #FFF4C1;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      color: #7A3700;
+      margin-bottom: 40px;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .card {
+      background-color: #FFF085;
+      border: 4px solid #FCB454;
+      border-radius: 20px;
+      padding: 30px 20px;
+      width: 270px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      color: #7A3700;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #402000;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 Need Personalized Support?</h1>
+
+  <div class="cards">
+  <!-- Neurologist -->
+  <a href="{{ url_for('coming_soon') }}" style="text-decoration: none;">
+    <div class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/3468/3468377.png" alt="Neurologist">
+      <h2>Neurologist</h2>
+      <p>Consult a specialist to get medical advice and official diagnosis for neurodiversity concerns.</p>
+    </div>
+  </a>
+
+  <!-- Tutor -->
+  <a href="{{ url_for('coming_soon') }}" style="text-decoration: none;">
+    <div class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png" alt="Tutor">
+      <h2>Personal Mentor</h2>
+      <p>Get personalized one-on-one learning support from an experienced tutor or mentor.</p>
+    </div>
+  </a>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gamified Learning</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #FFF4C1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #7A3700;
+      margin-bottom: 30px;
+      animation: fadeInDown 1s ease;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .game-card {
+      width: 270px;
+      background-color: #FFF085;
+      border: 4px solid #FCB454;
+      border-radius: 25px;
+      padding: 25px 20px;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      animation: popIn 0.6s ease;
+    }
+
+    .game-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .game-card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+      transition: transform 0.4s ease;
+    }
+
+    .game-card:hover img {
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    .game-card h2 {
+      font-size: 20px;
+      color: #7A3700;
+      margin-bottom: 10px;
+    }
+
+    .game-card p {
+      font-size: 15px;
+      color: #402000;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media screen and (max-width: 700px) {
+      .card-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Gamified Learning</h1>
+
+  <div class="card-container">
+    <!-- VR Word Builder Game -->
+    <a href="{{ url_for('vr_scene') }}">
+      <div class="game-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1484/1484868.png" alt="VR Game">
+        <h2>🧱 Word Builder VR</h2>
+        <p>Build words in a 3D VR space.</p>
+      </div>
+    </a>
+
+    <!-- Sound-It-Out Quiz -->
+    <a href="{{ url_for('sound_quiz') }}">
+      <div class="game-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/4557/4557953.png" alt="Phonics Game">
+        <h2>🔊 Sound-It-Out Quiz</h2>
+        <p>Match the sound to the correct spelling.</p>
+      </div>
+    </a>
+
+    <!-- Placeholder for future games -->
+    <a href="#">
+      <div class="game-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/751/751381.png" alt="Coming Soon">
+        <h2>🎯 Coming Soon</h2>
+        <p>More learning games are on the way!</p>
+      </div>
+    </a>
+  </div>
+
+</body>
+</html>

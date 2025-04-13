@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dcceeaff-243b-4b9e-9c6c-738e849645b0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Final_HOH.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/firebase-adminsdk.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/css/about.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/css/home.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/aboutus.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/age.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/challenge.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/children.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/email.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/game.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/gender.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/home.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/logout.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/neurocheck.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/password.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/images/username.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/js/auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/videos/intro.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/static/videos/intro2.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/templates/aboutus.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/templates/home.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/templates/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NeuroNudge/templates/signup.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="HTML File" />
+        <option value="Python Script" />
+        <option value="JavaScript File" />
+        <option value="package.json" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2vdxYzEYNnQC5EQ5hSGcyk0H86X" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Aryan/PycharmProjects/Final_HOH/NeuroNudge/static/css",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Aryan\PycharmProjects\Final_HOH\NeuroNudge\static\css" />
+      <recent name="C:\Users\Aryan\PycharmProjects\Final_HOH\NeuroNudge\templates" />
+      <recent name="C:\Users\Aryan\PycharmProjects\Final_HOH\NeuroNudge\static\videos" />
+      <recent name="C:\Users\Aryan\PycharmProjects\Final_HOH\NeuroNudge\static\images" />
+      <recent name="C:\Users\Aryan\PycharmProjects\Final_HOH\NeuroNudge\static" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aryan\PycharmProjects\Final_HOH\NeuroNudge" />
+      <recent name="C:\Users\Aryan\PycharmProjects\Final_HOH\NeuroNudge\static\js" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
+        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dcceeaff-243b-4b9e-9c6c-738e849645b0" name="Changes" comment="" />
+      <created>1744488804099</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744488804099</updated>
+      <workItem from="1744488805204" duration="5348000" />
+      <workItem from="1744494211251" duration="294000" />
+      <workItem from="1744494521287" duration="4303000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

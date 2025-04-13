@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroNudge - Welcome</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet" />
+</head>
+
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline class="bg-video">
+    <source src="{{ url_for('static', filename='videos/intro2.mp4') }}" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo-wrapper">
+        <video autoplay muted loop playsinline class="navbar-logo">
+          <source src="{{ url_for('static', filename='videos/intro.mp4') }}" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <div class="nav-left">
+        <a href="{{ url_for('home') }}" class="nav-item">
+          <img src="{{ url_for('static', filename='images/home.jpg') }}" alt="Home" />
+          <span>Home</span>
+        </a>
+        <a href="{{ url_for('gamified_learning') }}" class="nav-item">
+          <img src="{{ url_for('static', filename='images/game.jpg') }}" alt="Game" />
+          <span>Gamified Learning</span>
+        </a>
+        <a href="{{ url_for('neurocheck') }}" class="nav-item">
+          <img src="{{ url_for('static', filename='images/neurocheck.jpg') }}" alt="Neuro Check" />
+          <span>Neuro Check</span>
+        </a>
+        <a href="{{ url_for('aboutus') }}" class="nav-item">
+          <img src="{{ url_for('static', filename='images/aboutus.jpg') }}" alt="About Us" />
+          <span>About Us</span>
+        </a>
+         <a href="{{ url_for('progress_dashboard') }}" class="nav-item">
+            <img src="{{ url_for('static', filename='images/dashboard.jpg') }}" alt="Logout" />
+          <span>Progress tracker</span>
+        </a>
+        <a href="{{ url_for('logout') }}" class="nav-item">
+          <img src="{{ url_for('static', filename='images/logout.jpg') }}" alt="Logout" />
+          <span>Logout</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Welcome Section -->
+  <div class="background-wrapper">
+    <div class="content">
+      <h1 class="neuronudge-title">Welcome, {{ user.name }} <sup>1.0</sup></h1>
+      <p class="tagline">For minds that learn differently.</p>
+    </div>
+  </div>
+<!-- Footer Help Section -->
+<!-- Footer Help Section -->
+<footer style="width: 100%; text-align: center; margin-top: auto; padding: 20px 0; font-family: 'Comic Sans MS';">
+  <p style="color: #7A3700; font-size: 18px;">
+    Need more help?
+    <a href="{{ url_for('expert_help') }}" style="color: #7A3700; font-weight: bold; text-decoration: none;">
+      Consult a tutor or neurologist
+    </a>
+  </p>
+</footer>
+
+
+
+</body>
+</html>

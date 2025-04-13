@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scribble Scan - Dyslexia Predictor</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #FFF085, #FCB454, #FF9B17, #F16767);
+      background-size: 400% 400%;
+      animation: gradientFlow 15s ease infinite;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .upload-box {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(15px);
+      border-radius: 30px;
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #7a3700;
+    }
+
+    .drop-zone {
+      border: 3px dashed #f16767;
+      padding: 30px;
+      border-radius: 20px;
+      cursor: pointer;
+      background: #fff0d5;
+      transition: background 0.3s ease;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .drop-zone.dragover {
+      background: #ffe0cc;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 12px;
+      background-color: #f16767;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #d95555;
+    }
+
+    .fun-loader {
+      display: none;
+      width: 60px;
+      height: 60px;
+      margin: 25px auto;
+      border-radius: 50%;
+      background: conic-gradient(#fff085, #fcb454, #ff9b17, #f16767);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .result {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+      white-space: pre-line;
+      color: #7a3700;
+    }
+
+    .result .icon {
+      font-size: 36px;
+      display: block;
+      margin-bottom: 10px;
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="upload-box">
+    <h2>Scribble Scan 🖍️</h2>
+    <div class="drop-zone" id="dropZone">🎨 Drag & drop your handwriting image or click here</div>
+    <input type="file" id="imageInput" accept="image/*" />
+    <button onclick="submitImage()">Predict</button>
+    <div class="fun-loader" id="loader"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const dropZone = document.getElementById('dropZone');
+    const imageInput = document.getElementById('imageInput');
+    const loader = document.getElementById('loader');
+    const result = document.getElementById('result');
+
+    dropZone.addEventListener('click', () => imageInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) {
+        imageInput.files = e.dataTransfer.files;
+        dropZone.innerText = e.dataTransfer.files[0].name;
+      }
+    });
+
+    imageInput.addEventListener('change', () => {
+      if (imageInput.files.length > 0) {
+        dropZone.innerText = imageInput.files[0].name;
+      }
+    });
+
+    function submitImage() {
+      const file = imageInput.files[0];
+      if (!file) {
+        alert("Please select or drag-drop an image.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      loader.style.display = "block";
+      result.innerText = "";
+
+      fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        loader.style.display = "none";
+        if (data.error) {
+          result.innerHTML = "<div class='icon'>❌</div>Error: " + data.error;
+        } else {
+          const icon = data.prediction === "Dyslexic" ? "🧠" : "✔️";
+          result.innerHTML = `<div class='icon'>${icon}</div>Prediction: <b>${data.prediction}</b><br>Confidence: ${data.confidence}`;
+        }
+      })
+      .catch(err => {
+        loader.style.display = "none";
+        result.innerHTML = "<div class='icon'>❌</div>Error: " + err;
+      });
+    }
+  </script>
+
+</body>
+</html>

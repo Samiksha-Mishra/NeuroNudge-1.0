@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us - NeuroNudge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+</head>
+<body>
+
+  <header>ABOUT US</header>
+
+  <div class="section-title">Learning Challenges</div>
+  <div class="cards-container">
+    <div class="card">
+      <h3>Dyslexia</h3>
+      <p>Tools to support reading and writing.</p>
+      <a href="#">more</a>
+    </div>
+    <div class="card">
+      <h3>ADHD</h3>
+      <p>Interactive support to maintain focus.</p>
+      <a href="#">more</a>
+    </div>
+    <div class="card">
+      <h3>Autism</h3>
+      <p>Personalized structure and activities.</p>
+      <a href="#">more</a>
+    </div>
+  </div>
+
+  <div class="section-title">OUR TEAM</div>
+  <div class="team-section">
+    <div class="team-member">
+      <img src="{{ url_for('static', filename='images/team1.jpg') }}" alt="Team Member 1"  />
+      <p>Member 1</p>
+    </div>
+    <div class="team-member">
+      <img src="{{ url_for('static', filename='images/team2.jpg') }}" alt="Team Member 2"  />
+      <p>Member 2</p>
+    </div>
+    <div class="team-member">
+      <img src="{{ url_for('static', filename='images/team3.jpg') }}" alt="Team Member 3"  />
+      <p>Member 3</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    @ copyright
+    <a href="#">Terms & Conditions</a>
+  </div>
+
+</body>
+</html>

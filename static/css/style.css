@@ -1,0 +1,242 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Baloo 2', cursive;
+    background-color: #FFE8B0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .login-container {
+    background-image: url("illustration.jpg");
+    background-size: cover;
+    background-color: #FCB454;
+    border-radius: 24px;
+    padding: 40px 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    max-height: 650px;
+    justify-content: space-between;
+  }
+  
+  .login-title {
+    text-align: center;
+    font-size: 2.8em;
+    font-weight: bolder;
+    color: #F16767;
+  }
+  
+  .neuro {
+    color: #e35252; 
+  }
+  
+  .nudge {
+    color: #D84315; 
+  }
+  
+  
+  .version {
+    color: #b06106;
+    font-size: 0.5em;
+    vertical-align: top;
+  }
+  
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-icon {
+    display: flex;
+    align-items: center;
+    background-color: #FFF59D;
+    border: 2px solid #FFB300;
+    border-radius: 14px;
+    padding: 12px 16px;
+    padding-left: 10px;
+    
+  }
+  
+  .input-icon img.input-image {
+    height: 28px;
+    width: 28px;
+    margin-right: 12px;
+  }
+  
+  .input-icon input {
+    border: none;
+    background: transparent;
+    font-size: 1.4em;
+    width: 100%;
+    outline: none;
+    font-family: 'Baloo 2', cursive;
+    color: #444;
+  }
+
+  
+  .login-btn {
+    background-color: #F16767;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 1.4em;
+    font-family: 'Baloo 2', cursive;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .login-btn:hover {
+    background-color: #FF9B17;
+  }
+  
+  .signup-link {
+    text-align: center;
+    font-size: 1.4em;
+    color: #5d2a1b;
+    font-weight: 600;
+    padding-top: 0%;
+    padding-bottom: 7%;
+    margin-top: 5%;
+    margin-bottom: 22%;
+  }
+  
+  .signup-link a {
+    color: #5e4223;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .signup-link a:hover {
+    color: #F16767;
+  }
+  
+  .forgot-password {
+    text-align: right;
+    font-size: 1.1em;
+    color: #D84315;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+  
+  .forgot-password a {
+    color: #e64343;
+    text-decoration: none;
+  }
+
+
+  /* Styling for select elements (dropdowns) */
+  .input-icon select.styled-select {
+    border: none;
+    background: transparent;
+    font-size: 1.4em;
+    width: 100%;
+    outline: none;
+    font-family: 'Baloo 2', cursive;
+    color: #444;
+    padding-left: 10px; /* 👈 Add this line for left space */
+    appearance: none;
+  }
+  
+
+/* Optional: Add a custom dropdown arrow using background image or icon */
+.input-icon select.styled-select::-ms-expand {
+  display: none;
+}
+
+#assessment-group {
+  margin-top: -10px;
+}
+
+
+#signup{
+  background-image: url("illustration.jpg");
+  background-size: cover;
+  background-color: #FCB454;
+  border-radius: 30px;
+  margin: 10px;
+  padding: 20px 30px 20px 30px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  max-height: 670px;
+  padding-bottom: 5%;
+  justify-content: space-between;
+}
+
+::placeholder{
+  color: #36454f;
+}
+
+.animated-bg {
+  position: fixed;
+  /* opacity: 0.9; */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  background: linear-gradient(120deg, #fff085, #fcb454, #ff9b17, #f16767);
+  animation: gradientShift 20s ease infinite;
+  background-size: 400% 400%;
+}
+
+.shape {
+  position: absolute;
+  opacity: 0.2;
+  animation: float 12s infinite ease-in-out;
+}
+
+.shape.circle {
+  width: 60px;
+  height: 60px;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+.shape.triangle {
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 55px solid #fcb454;
+}
+
+.shape.square {
+  width: 50px;
+  height: 50px;
+  background: #ff9b17;
+  border-radius: 8px;
+}
+
+.shape.star {
+  width: 50px;
+  height: 50px;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Star_icon_stylized.svg/1024px-Star_icon_stylized.svg.png') no-repeat center;
+  background-size: contain;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  50%  { transform: translateY(-20px) rotate(180deg); }
+  100% { transform: translateY(0px) rotate(360deg); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

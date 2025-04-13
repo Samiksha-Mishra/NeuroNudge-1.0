@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroNudge - Personalized Reading</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #FFF4C1;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #7A3700;
+      margin-bottom: 30px;
+    }
+
+    textarea {
+      width: 90%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 2px solid #FCB454;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px 25px;
+      background: #F16767;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    button:hover {
+      background: #d94f4f;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .result-box {
+      background: #FFF085;
+      border: 4px solid #FCB454;
+      border-radius: 20px;
+      padding: 20px;
+      max-width: 700px;
+      margin: 20px auto;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+      text-align: left;
+    }
+
+    .highlight { font-weight: bold; color: #D32F2F; }
+    .good { color: #2E7D32; }
+    .neutral { color: #7A3700; }
+    .stat-title { font-weight: bold; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 NeuroNudge Personalized Learning + Real-Time Feedback</h1>
+
+  <div class="section">
+    <h2>📚 Get Personalized Sentence</h2>
+    <button onclick="fetchContent('easy')">Easy</button>
+    <button onclick="fetchContent('medium')">Medium</button>
+    <button onclick="fetchContent('hard')">Hard</button>
+    <p><strong>Level Content:</strong> <span id="personalizedContent" class="neutral"></span></p>
+  </div>
+
+  <div class="section">
+    <h2>🎙️ Read and Get Feedback</h2>
+    <textarea id="originalText" rows="3" placeholder="Original sentence (paste from above or write)"></textarea><br>
+    <textarea id="spokenText" rows="3" placeholder="Your spoken sentence will appear here"></textarea><br>
+    <button onclick="startRecording()">🎤 Start Voice Input</button>
+    <button onclick="sendFeedback()">📊 Analyze Reading</button>
+    <p id="recordStatus" class="neutral"></p>
+  </div>
+
+  <div class="result-box" id="result" style="display:none;">
+    <p><span class="stat-title">Original:</span> <span id="oText"></span></p>
+    <p><span class="stat-title">Spoken:</span> <span id="sText"></span></p>
+    <p><span class="stat-title">Missing Words:</span> <span class="highlight" id="missingWords"></span></p>
+    <p><span class="stat-title">Extra Words:</span> <span class="highlight" id="extraWords"></span></p>
+    <p><span class="stat-title">Accuracy:</span> <span class="good" id="accuracy"></span>%</p>
+    <p><span class="stat-title">WPM:</span> <span class="neutral" id="wpm"></span></p>
+    <p><span class="stat-title">Sentiment:</span> <span class="neutral" id="sentiment"></span></p>
+  </div>
+
+  <script>
+    let startTime;
+
+    function fetchContent(level) {
+      fetch('/get_content?level=' + level)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('personalizedContent').textContent = data.sentence;
+          document.getElementById('originalText').value = data.sentence;
+        });
+    }
+
+    function startRecording() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return alert("Your browser does not support Speech Recognition");
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+
+      document.getElementById("recordStatus").innerText = "🎤 Listening...";
+      startTime = Date.now();
+
+      recognition.onresult = function(event) {
+        const spoken = event.results[0][0].transcript;
+        document.getElementById("spokenText").value = spoken;
+        document.getElementById("recordStatus").innerText = "✅ Captured successfully!";
+      };
+
+      recognition.onerror = function(event) {
+        document.getElementById("recordStatus").innerText = "❌ Error: " + event.error;
+      };
+
+      recognition.start();
+    }
+
+    function sendFeedback() {
+      const original = document.getElementById("originalText").value;
+      const spoken = document.getElementById("spokenText").value;
+      const end = Date.now();
+
+      fetch('/reading_feedback', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          original: original,
+          spoken: spoken,
+          start_time: startTime / 1000,
+          end_time: end / 1000
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("result").style.display = "block";
+        document.getElementById("oText").innerText = data.original;
+        document.getElementById("sText").innerText = data.spoken;
+        document.getElementById("missingWords").innerText = data.missing.join(", ");
+        document.getElementById("extraWords").innerText = data.extra.join(", ");
+        document.getElementById("accuracy").innerText = data.accuracy;
+        document.getElementById("wpm").innerText = data.wpm;
+        document.getElementById("sentiment").innerText = data.sentiment;
+      });
+    }
+  </script>
+
+</body>
+</html>

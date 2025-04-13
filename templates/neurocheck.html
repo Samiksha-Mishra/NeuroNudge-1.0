@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroCheck</title>
+
+  <!-- Lordicon animated icons -->
+  <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #FFF4C1;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #7A3700;
+      margin-bottom: 40px;
+      animation: fadeSlideDown 0.6s ease-out;
+    }
+
+    .cards {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: popIn 0.5s ease;
+    }
+
+    .card {
+      background-color: #FFF085;
+      border: 4px solid #FCB454;
+      border-radius: 25px;
+      padding: 30px 20px;
+      width: 270px;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    .card lord-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover lord-icon {
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    .card h2 {
+      font-size: 20px;
+      color: #7A3700;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 15px;
+      color: #402000;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeSlideDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @media screen and (max-width: 700px) {
+      .cards {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 NeuroCheck - Choose a Method</h1>
+
+  <div class="cards">
+
+    <!-- Scribble Scan -->
+    <a href="{{ url_for('scribble_scan') }}" >
+      <div class="card">
+        <lord-icon
+            src="https://cdn.lordicon.com/qfifoxet.json"
+            trigger="hover"
+            colors="primary:#7a3700,secondary:#f16767">
+        </lord-icon>
+        <h2>✍️ Scribble Scan</h2>
+        <p>Check for Dyslexia using handwriting.</p>
+      </div>
+    </a>
+
+    <!-- Talk Trace -->
+    <a href="{{ url_for('talk_trace') }}">
+      <div class="card">
+        <lord-icon
+            src="https://cdn.lordicon.com/ehfubvwr.json"
+            trigger="hover"
+            colors="primary:#7a3700,secondary:#f16767">
+        </lord-icon>
+        <h2>🎙️ Talk Trace</h2>
+        <p>Check for Dyslexia/ADHD using voice.</p>
+      </div>
+    </a>
+
+    <a href="{{ url_for('pronunciation_feedback') }}">
+  <div class="card">
+    <lord-icon
+        src="https://cdn.lordicon.com/qhviklyi.json"
+        trigger="hover"
+        colors="primary:#7a3700,secondary:#fcb454">
+    </lord-icon>
+    <h2>📖 Reading Analyzer</h2>
+    <p>Analyze reading skills.</p>
+  </div>
+</a>
+
+
+  </div>
+
+</body>
+</html>

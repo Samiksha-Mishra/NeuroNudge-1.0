@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroNudge 1.0 - Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script type="module" src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</head>
+<body>
+  <div class="login-container" id="signup">
+    <h1 class="login-title">
+      <span class="neuro">Neuro</span><span class="nudge">Nudge</span>
+      <sup class="version">1.0</sup>
+    </h1>
+
+    <div class="animated-bg">
+      <div class="shape circle" style="top: 10%; left: 10%;"></div>
+      <div class="shape circle" style="top: 20%; left: 80%; animation-delay: 2s;"></div>
+      <div class="shape triangle" style="top: 30%; left: 60%; animation-delay: 4s;"></div>
+      <div class="shape triangle" style="top: 70%; left: 15%; animation-delay: 1s;"></div>
+      <div class="shape square" style="top: 85%; left: 50%; animation-delay: 3s;"></div>
+      <div class="shape square" style="top: 40%; left: 35%; animation-delay: 6s;"></div>
+      <div class="shape star" style="top: 50%; left: 20%; animation-delay: 5s;"></div>
+      <div class="shape star" style="top: 15%; left: 65%; animation-delay: 7s;"></div>
+      <div class="shape circle" style="top: 75%; left: 75%; animation-delay: 2.5s;"></div>
+    </div>
+
+    <form id="signupform">
+      <div class="input-group">
+        <div class="input-icon">
+          <img src="{{ url_for('static', filename='images/username.jpg') }}" alt="Name" class="input-image" />
+          <input type="text" id="name" name="name" placeholder="Full Name" required />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-icon">
+          <img src="{{ url_for('static', filename='images/email.jpg') }}" alt="Email" class="input-image" />
+          <input type="email" id="email" name="email" placeholder="Email" required />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-icon">
+          <img src="{{ url_for('static', filename='images/password.jpg') }}" alt="Password" class="input-image" />
+          <input type="password" id="password" name="password" placeholder="Password" required minlength="6" />
+        </div>
+      </div>
+
+      <div class="input-group" style="display: flex; gap: 10px;">
+        <div class="input-icon" style="flex: 1;">
+          <img src="{{ url_for('static', filename='images/age.jpg') }}" alt="Age" class="input-image" />
+          <input type="number" id="age" placeholder="Enter Age" />
+        </div>
+        <div class="input-icon" style="flex: 1;">
+          <img src="{{ url_for('static', filename='images/gender.jpg') }}" alt="Gender" class="input-image" />
+          <select id="gender" class="styled-select" required>
+            <option value="">Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-icon">
+          <img src="{{ url_for('static', filename='images/challenge.jpg') }}" alt="Challenge" class="input-image" />
+          <select id="challenge" class="styled-select" required>
+            <option value="">Learning Challenge</option>
+            <option value="dyslexia">Dyslexia</option>
+            <option value="adhd">ADHD</option>
+            <option value="not_sure">Not sure? Check later!</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <button type="submit" class="login-btn" style="width: 10rem;">Submit</button>
+      </div>
+
+      <button class="login-btn" onclick="googleLogin()">Continue with Google</button>
+
+      <div id="user-info" style="display: none;">
+        <p id="welcome-message"></p>
+        <button class="login-btn" onclick="logout()">Logout</button>
+      </div>
+
+      <div class="signup-link">
+        Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
