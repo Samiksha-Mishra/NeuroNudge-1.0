@@ -9,7 +9,8 @@ language-tool-python==2.7.1
 spacy==3.6.1
 numpy==1.23.5
 scikit-learn==1.1.3
-tensorflow==2.13.0
+tensorflow==2.12.0
+keras==2.12.0
 requests==2.31.0
 gunicorn==21.2.0
 opencv-python-headless==4.10.0.84
