@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 CORS(app)
 
-cred = credentials.Certificate("firebase-adminsdk.json")
+cred = credentials.Certificate(os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"))
 firebase_admin.initialize_app(cred)
 
 # Initialize Firestore client
